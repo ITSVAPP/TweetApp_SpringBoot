@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+	<head>
+		<meta th:replace="/include/head" />
+		<title>つぶやきアプリ</title>
+	</head>
+	<body>
+		<h1>つぶやきアプリ</h1>
+		<h2>安倍晋三さんのつぶやき</h2>
+		<table>
+			<tr>
+				<td>
+					<form action="tweetlist" method="get">
+						<input type="submit" value="戻る" />
+					</form>
+				</td>
+			</tr>
+		</table>
+		<br />
+		<table border="1">
+			<tr>
+				<th>名前</th>
+				<th>つぶやき</th>
+				<th>日時</th>
+				<th>削除</th>
+			</tr>
+			<tr>
+				<td>安倍晋三</td>
+				<td>総理大臣になりました。いえい</td>
+				<td>2020/12/06 23:01:33</td>
+				<td>
+					<form action="tweetpersonlist.html" method="get">
+						<input type="submit" value="削除" />
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>安倍晋三</td>
+				<td>総理大臣になりました。</td>
+				<td>2020/12/06 23:01:30</td>
+				<td>
+					<form action="tweetpersonlist.html" method="get">
+						<input type="submit" value="削除" />
+					</form>
+				</td>
+			</tr>
+		</table>
+		<p th:text="${session['scopedTarget.sessionObjct'].userData.userId}"></p>
+
+		<footer th:replace="/include/footer"></footer>
+	</body>
+</html>

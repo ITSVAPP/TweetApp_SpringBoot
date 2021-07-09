@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+	<head>
+		<meta th:replace="/include/head" />
+		<title>つぶやき ログイン</title>
+	</head>
+	<body>
+		<h1>つぶやき</h1>
+		<h2>ログイン</h2>
+		<form action="/login" method="get">
+			ログインID：
+			<input type="text" name="userId" th:value=${param.userId} />
+			<br />パスワード：
+			<input type="password" name="password" th:value=${param.password} />
+			<br />
+			<input type="submit" value="ログイン" />
+			<input type="reset" />
+		</form>
+
+		<div th:if="${message != null}">
+			<p th:text="${message}"></p>
+		</div>
+
+		<footer th:replace="/include/footer"></footer>
+	</body>
+</html>
