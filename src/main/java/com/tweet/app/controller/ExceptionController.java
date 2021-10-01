@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@ControllerAdvice //@ExceptionHandlerを私用するためのもの
+@ControllerAdvice // @ExceptionHandlerを私用するためのもの
 public class ExceptionController implements ErrorController {
 
 	/**
@@ -24,6 +24,7 @@ public class ExceptionController implements ErrorController {
 
 	/**
 	 * エラーページのパスを返す。
+	 * 
 	 * @return エラーページのパス
 	 */
 	@Override
@@ -33,14 +34,12 @@ public class ExceptionController implements ErrorController {
 
 	/**
 	 * エラー時の動作
+	 * 
 	 * @param ex
-	 * @return
+	 * @return mav
 	 */
 	@ExceptionHandler({ Throwable.class })
 	public ModelAndView throwableHandler(Throwable ex) {
-
-		System.out.println("例外発生");
-
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(ERROR_PATH);
 		mav.addObject("message", ex.getMessage());
@@ -49,8 +48,6 @@ public class ExceptionController implements ErrorController {
 
 	@RequestMapping("${server.error.path:${error.path:/error}}") // エラーページへのマッピング
 	public ModelAndView myErrorHtml(HttpServletRequest request) {
-
-		System.out.println("例外リクエスト発生");
 
 		Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
