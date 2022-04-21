@@ -9,8 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tweet.app.dao.TweetDAO;
 import com.tweet.app.entity.Tweet;
-import com.tweet.app.session.SessionObjct;
-
+	
 import interceptor.LoginCheckAnnotaion;
 
 @Controller
@@ -19,9 +18,6 @@ public class TweetListController {
 	@Autowired
 	private TweetDAO tweetDao;
 
-	@Autowired
-	private SessionObjct sessionObject;
-
 	@RequestMapping("/tweetlist")
 	@LoginCheckAnnotaion
 	public ModelAndView tweetListView(String name, ModelAndView mav) {
@@ -29,7 +25,6 @@ public class TweetListController {
 		mav.setViewName("tweetlist");
 		mav.addObject("tweetList", tweetList);
 
-		System.out.println(sessionObject.getUserData().getUserId());
 		return mav;
 	}
 }
