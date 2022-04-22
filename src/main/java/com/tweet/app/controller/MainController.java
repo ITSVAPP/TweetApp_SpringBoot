@@ -19,4 +19,9 @@ public class MainController {
 		model.addAttribute("tweetList", tweetService.findAll());
 		return "index";
 	}
+
+	@GetMapping("/login")
+	public String showLoginForm() {
+		return "login";
+	}
 }

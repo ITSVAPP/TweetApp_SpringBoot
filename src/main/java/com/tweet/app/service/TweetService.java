@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tweet.app.entity.Tweet;
-import com.tweet.app.repositories.TweetRepository;
+import com.tweet.app.repository.TweetRepository;
 
 import lombok.RequiredArgsConstructor;
 

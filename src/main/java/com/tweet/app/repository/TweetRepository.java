@@ -1,4 +1,4 @@
-package com.tweet.app.repositories;
+package com.tweet.app.repository;
 
 import java.util.List;
 

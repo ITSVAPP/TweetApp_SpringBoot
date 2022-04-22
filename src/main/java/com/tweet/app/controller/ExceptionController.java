@@ -25,6 +25,8 @@ public class ExceptionController implements ErrorController {
 	 */
 	@ExceptionHandler({ Throwable.class })
 	public String throwableHandler(Throwable ex) {
+		// TODOログにしてもいい
+		System.out.println("エクセプション時");
 		//スタックトレースの表示
 		ex.printStackTrace();
 
@@ -36,8 +38,6 @@ public class ExceptionController implements ErrorController {
 	@RequestMapping("${server.error.path:${error.path:/error}}") // エラーページへのマッピング
 	public ModelAndView myErrorHtml(HttpServletRequest request) {
 
-		System.out.println("ここ動いてる？");
-
 		Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -46,6 +46,7 @@ public class ExceptionController implements ErrorController {
 		// 404 の場合はデフォルトページへ遷移させる
 		if (statusCode != null && "404".equals(statusCode.toString())) {
 			mav = new ModelAndView("redirect:/");
+			System.out.println("リダイレクトされました");
 			return mav;
 		}
 

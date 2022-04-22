@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-	<head>
-		<meta th:replace="/include/head" />
-		<title>つぶやき ログイン</title>
-	</head>
-	<body class="container">
-		<h1>つぶやき</h1>
-		<h2>ログイン</h2>
-		<form action="/login" method="get">
-			ログインID：
-			<input type="text" name="userId" th:value=${param.userId} />
-			<br />パスワード：
-			<input type="password" name="password" th:value=${param.password} />
-			<br />
-			<input type="submit" value="ログイン" />
-			<input type="reset" />
-		</form>
-
-		<div th:if="${message != null}">
-			<p th:text="${message}"></p>
+<head>
+<meta th:replace="/include/head" />
+<title>つぶやき ログイン</title>
+</head>
+<body class="container">
+	<h1>つぶやき</h1>
+	<h2>ログイン</h2>
+	<div th:if=${param.error}>
+		<p>ユーザー名もしくはパスワードが異なります</p>
+	</div>
+	<form action="#" th:action="@{/login}" method="post">
+		<div class="mt-3">
+			<label for="userIdInput" class="form-label">ユーザId</label>
+			<input type="text" id="userIdInput" class="form-control" name="username">
 		</div>
+		<div class="mt-3">
+			<label for="passwordInput" class="form-label">パスワード</label>
+			<input type="password" id="passwordInput" class="form-control" name="password">
+		</div>
+		<div>
+			<input type="submit" value="ログイン" class="btn btn-primary">
+		</div>
+	</form>
 
-		<footer th:replace="/include/footer"></footer>
-	</body>
+	<footer th:replace="/include/footer"></footer>
+</body>
 </html>
