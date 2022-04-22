@@ -1,4 +1,4 @@
-package interceptor;
+package com.tweet.app.interceptor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

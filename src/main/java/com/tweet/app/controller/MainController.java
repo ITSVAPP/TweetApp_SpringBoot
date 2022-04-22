@@ -1,14 +1,22 @@
 package com.tweet.app.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.tweet.app.service.TweetService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 
-	@RequestMapping(value = { "/", "/index.html" })
-	public String index() {
+	private final TweetService tweetService;
 
-		return "login";
+	@GetMapping
+	public String index(Model model) {
+		model.addAttribute("tweetList", tweetService.findAll());
+		return "index";
 	}
 }

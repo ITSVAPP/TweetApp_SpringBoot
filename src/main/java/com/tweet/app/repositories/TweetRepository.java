@@ -1,10 +1,15 @@
 package com.tweet.app.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.tweet.app.entity.Tweet;
 
-@Repository
-public interface TweetRepository extends JpaRepository<Tweet, String> {
+@Mapper
+public interface TweetRepository {
+
+	@Select("select tweetid,tweet,name,date from tweet inner join users where tweet.userid = users.userid order by date DESC")
+	List<Tweet> findAll();
 }

@@ -18,36 +18,25 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExceptionController implements ErrorController {
 
 	/**
-	 * エラーページのパス。
-	 */
-	private static final String ERROR_PATH = "/error";
-
-	/**
-	 * エラーページのパスを返す。
-	 * 
-	 * @return エラーページのパス
-	 */
-	@Override
-	public String getErrorPath() {
-		return ERROR_PATH;
-	}
-
-	/**
 	 * エラー時の動作
 	 * 
 	 * @param ex
 	 * @return mav
 	 */
 	@ExceptionHandler({ Throwable.class })
-	public ModelAndView throwableHandler(Throwable ex) {
+	public String throwableHandler(Throwable ex) {
+		//スタックトレースの表示
+		ex.printStackTrace();
+
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName(ERROR_PATH);
 		mav.addObject("message", ex.getMessage());
-		return mav;
+		return "error/error";
 	}
 
 	@RequestMapping("${server.error.path:${error.path:/error}}") // エラーページへのマッピング
 	public ModelAndView myErrorHtml(HttpServletRequest request) {
+
+		System.out.println("ここ動いてる？");
 
 		Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -63,7 +52,7 @@ public class ExceptionController implements ErrorController {
 		// 出力したい情報をセットする
 		mav = new ModelAndView();
 		mav.setStatus(status); // HTTP ステータスをセットする
-		mav.setViewName(ERROR_PATH); // error.html
+		mav.setViewName("error/error"); // error.html
 		mav.addObject("timestamp", new Date());
 		mav.addObject("status", status.value());
 		mav.addObject("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));

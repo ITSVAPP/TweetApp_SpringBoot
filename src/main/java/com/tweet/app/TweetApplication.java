@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.handler.MappedInterceptor;
 
-import interceptor.ControllerInterceptor;
+import com.tweet.app.interceptor.ControllerInterceptor;
 
 @SpringBootApplication
 public class TweetApplication extends SpringBootServletInitializer {

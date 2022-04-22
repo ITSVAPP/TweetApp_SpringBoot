@@ -1,4 +1,4 @@
-package interceptor;
+package com.tweet.app.interceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

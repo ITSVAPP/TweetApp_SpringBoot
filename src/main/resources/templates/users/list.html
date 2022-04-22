@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+	<head>
+		<meta th:replace="/include/head" />
+		<title>つぶやきアプリ</title>
+	</head>
+	<body>
+		<form action="tweetinput.html" method="get">
+			<input type="submit" value="書き込み" />
+		</form>
+		<br />
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>名前</th>
+				<th>権限</th>
+			</tr>
+			<tr th:each="user : ${userList}">
+				<td th:text="${user.userId}"></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.role}"></td>
+			</tr>
+		</table>
+		<footer th:replace="/include/footer"></footer>
+	</body>
+</html>

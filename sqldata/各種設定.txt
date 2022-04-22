@@ -1,4 +1,4 @@
 DBViewer
-　接続文字列：jdbc:mysql://localhost:3306/TWEET_APP_DB?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false&allowPublicKeyRetrieval=true
-　接続ユーザ：tweetappuser
+　接続文字列：jdbc:mysql://localhost:3306/TWEET_DB?characterEncoding=UTF-8&serverTimezone=JST&useSSL=false&allowPublicKeyRetrieval=true
+　接続ユーザ：tweetuser
 　接続パスワード：pass
