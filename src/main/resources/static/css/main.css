@@ -1,3 +1,10 @@
 body {
-	background:#fafcee
+	background-color: #fafcee; /*背景色*/
+	display: flex;
+	flex-flow: column;
+	min-height: 100vh;
+}
+
+main{
+	flex: 1;
 }

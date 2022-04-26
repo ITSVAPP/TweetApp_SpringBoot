@@ -1,5 +1,6 @@
 package com.tweet.app.controller.users;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,17 +28,24 @@ public class UsersController {
 		return "users/list";
 	}
 
-	@GetMapping("/creationForm")
+	@GetMapping("/creationUser")
 	public String showCreationForm(@ModelAttribute UserDataForm form) {
 		return "users/creationForm";
 	}
 
-	@PostMapping("/creatUser")
-	public String createUser(@Validated UserDataForm form, BindingResult bindingResult) {
+	@PostMapping("/creationUser")
+	public String createUser(@Validated UserDataForm form, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			return showCreationForm(form);
 		}
-		userService.createUser(form.getUserId(), form.getName(), form.getPassword(), form.getRole());
+
+		try {
+			userService.createUser(form.getUserId(), form.getName(), form.getPassword(), form.getRole());
+		} catch (DuplicateKeyException e) {
+			// 重複エラー設定
+			model.addAttribute("duplicatekeyerr", true);
+			return showCreationForm(form);
+		}
 
 		return "redirect:/users";
 	}

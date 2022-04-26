@@ -13,6 +13,8 @@ public class Tweet {
 
 	private String tweet;
 
+	private String userId;
+
 	private String name;
 
 	private Date date;

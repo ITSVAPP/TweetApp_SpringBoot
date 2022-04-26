@@ -24,4 +24,10 @@ public class MainController {
 	public String showLoginForm() {
 		return "login";
 	}
+
+	@GetMapping("/tweetpersonal")
+	public String tweetPersonView(String userId, Model model) {
+		model.addAttribute("tweetList", tweetService.findByUserId(userId));
+		return "tweetpersonal";
+	}
 }

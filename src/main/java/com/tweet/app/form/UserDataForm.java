@@ -1,5 +1,6 @@
 package com.tweet.app.form;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -10,6 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserDataForm {
 
+	@NotBlank
 	private String userId;
 
 	@NotBlank
@@ -24,4 +26,14 @@ public class UserDataForm {
 
 	@NotBlank
 	private String role;
+
+	@AssertTrue
+	public boolean isSamePassword() {
+		// ヌルチェック
+		if (password == null || confirmPassword == null) {
+			return false;
+		}
+		return password.equals(confirmPassword);
+	}
+
 }

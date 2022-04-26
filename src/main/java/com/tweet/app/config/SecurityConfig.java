@@ -2,7 +2,6 @@ package com.tweet.app.config;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,15 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final PasswordEncoder passwordEncorder;
 
 	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
-				.antMatchers("/static/**", "/webjars/**", "/css/**", "/js/**", "/favicon.ico");
-	}
-
-	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
+				// 静的ファイルの除外
+				.mvcMatchers("/webjars/**", "/css/**", "/js/**", "/img/**", "/favicon.ico")
+				.permitAll()
+				// ログイン画面の除外
+				.mvcMatchers("/login/**").permitAll()
 				.mvcMatchers("/users/**").hasAnyAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and()

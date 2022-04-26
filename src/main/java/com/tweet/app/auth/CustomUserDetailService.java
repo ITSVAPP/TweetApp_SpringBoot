@@ -30,7 +30,7 @@ public class CustomUserDetailService implements UserDetailsService {
 			throw new UsernameNotFoundException("入力されたユーザ名" + userId + "がありません");
 		}
 
-		return new CustomUserDetails(user.getName(), user.getPassword(), toGrantedAuthority(user.getRole()));
+		return new CustomUserDetails(userId, user.getName(), user.getPassword(), toGrantedAuthority(user.getRole()));
 
 	}
 

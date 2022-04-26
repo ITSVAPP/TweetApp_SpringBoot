@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-	<head>
-		<meta th:replace="/include/head" />
-		<title>つぶやきアプリ</title>
-	</head>
-	<body>
-		<form action="/users/creationForm.html" th:action="@{/users/creationForm}" method="get">
+<head>
+<meta th:replace="/include/head" />
+<title>つぶやきアプリ</title>
+</head>
+<body>
+
+	<main class="container">
+
+		<form action="/users/creationForm.html" th:action="@{/users/creationUser}" method="get">
 			<input type="submit" value="作成" />
 		</form>
 		<br />
-		<table border="1">
+		<table class="table table-hover">
 			<tr>
-				<th>ID</th>
+				<th>#</th>
+				<th>ユーザID</th>
 				<th>名前</th>
 				<th>権限</th>
 			</tr>
-			<tr th:each="user : ${userList}">
+			<tr th:each="user,status : ${userList}">
+				<td th:text="${status.count}"></td>
 				<td th:text="${user.userId}"></td>
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.role}"></td>
 			</tr>
 		</table>
-		<footer th:replace="/include/footer"></footer>
-	</body>
+	</main>
+	<footer th:replace="/include/footer"></footer>
+</body>
 </html>

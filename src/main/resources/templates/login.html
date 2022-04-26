@@ -4,25 +4,32 @@
 <meta th:replace="/include/head" />
 <title>つぶやき ログイン</title>
 </head>
-<body class="container">
-	<h1>つぶやき</h1>
-	<h2>ログイン</h2>
-	<div th:if=${param.error}>
-		<p>ユーザー名もしくはパスワードが異なります</p>
-	</div>
-	<form action="#" th:action="@{/login}" method="post">
-		<div class="mt-3">
-			<label for="userIdInput" class="form-label">ユーザId</label>
-			<input type="text" id="userIdInput" class="form-control" name="username">
+<body>
+	<main class="container">
+
+		<h1>ログイン</h1>
+
+		<div class="w-50 m-auto">
+			<!--/* ログイン失敗時のエラーメッセージ */-->
+			<div th:if=${param.error} class="alert alert-danger" th:text="#{login.failed}">(faild)</div>
+			<!--/* ログアウト時のエラーメッセージ*/-->
+			<div th:if=${param.logout} class="alert alert-info" th:text="#{login.logoutcomplete}">(logoutcomplete)</div>
+
+			<form action="#" th:action="@{/login}" method="post">
+				<div class="mt-3">
+					<label for="userIdInput" class="form-label">ユーザID</label>
+					<input type="text" id="userIdInput" class="form-control" name="username">
+				</div>
+				<div class="mt-3">
+					<label for="passwordInput" class="form-label">パスワード</label>
+					<input type="password" id="passwordInput" class="form-control" name="password">
+				</div>
+				<div class="mt-3">
+					<input type="submit" value="ログイン" class="btn btn-primary">
+				</div>
+			</form>
 		</div>
-		<div class="mt-3">
-			<label for="passwordInput" class="form-label">パスワード</label>
-			<input type="password" id="passwordInput" class="form-control" name="password">
-		</div>
-		<div>
-			<input type="submit" value="ログイン" class="btn btn-primary">
-		</div>
-	</form>
+	</main>
 
 	<footer th:replace="/include/footer"></footer>
 </body>

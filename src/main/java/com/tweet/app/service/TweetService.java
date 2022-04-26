@@ -19,4 +19,8 @@ public class TweetService {
 		return tweetRepository.findAll();
 	}
 
+	public List<Tweet> findByUserId(String userId) {
+		return tweetRepository.findbyUserId(userId);
+	}
+
 }

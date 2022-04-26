@@ -1,0 +1,12 @@
+<header class="p-3">
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<a href="users/list.html" th:href="@{/users}">ユーザ一覧</a>
+	</div>
+	<form action="#" th:action="@{/logout}" method="post">
+		<input type="submit" value="ログアウト" class="btn btn-primary">
+	</form>
+	<div>
+		<span sec:authentication="principal.userId">(userId)</span>:
+		<span sec:authentication="principal.username">(name)</span>さんこんにちは
+	</div>
+</header>
