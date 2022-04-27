@@ -23,4 +23,8 @@ public class TweetService {
 		return tweetRepository.findbyUserId(userId);
 	}
 
+	public void createTweet(String userId, String tweet) {
+		tweetRepository.Insert(userId, tweet);
+	}
+
 }

@@ -5,13 +5,9 @@
 <title>つぶやきアプリ</title>
 </head>
 <body>
+	<header th:replace="/include/header"></header>
 
 	<main class="container">
-
-		<form action="/users/creationForm.html" th:action="@{/users/creationUser}" method="get">
-			<input type="submit" value="作成" />
-		</form>
-		<br />
 		<table class="table table-hover">
 			<tr>
 				<th>#</th>
@@ -19,14 +15,19 @@
 				<th>名前</th>
 				<th>権限</th>
 			</tr>
-			<tr th:each="user,status : ${userList}">
+			<tr th:each="user,status : ${userList}" th:attr="onClick='location.href=\''+${'/users/updateForm/'+user.userId}+'\''">
 				<td th:text="${status.count}"></td>
 				<td th:text="${user.userId}"></td>
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.role}"></td>
 			</tr>
 		</table>
+		<form action="/users/creationForm.html" th:action="@{/users/creationUser}" method="get">
+			<input type="submit" value="作成" class="btn btn-primary" />
+		</form>
+
 	</main>
+
 	<footer th:replace="/include/footer"></footer>
 </body>
 </html>

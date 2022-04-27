@@ -1,12 +1,19 @@
-<header class="p-3">
-	<div sec:authorize="hasAuthority('ADMIN')">
-		<a href="users/list.html" th:href="@{/users}">ユーザ一覧</a>
-	</div>
-	<form action="#" th:action="@{/logout}" method="post">
-		<input type="submit" value="ログアウト" class="btn btn-primary">
-	</form>
-	<div>
-		<span sec:authentication="principal.userId">(userId)</span>:
-		<span sec:authentication="principal.username">(name)</span>さんこんにちは
-	</div>
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid w-50">
+			<div>
+				<a href="/index.html" th:href="@{/}" class="nav-link navbar-brand">トップ</a>
+			</div>
+			<div sec:authorize="hasAuthority('ADMIN')">
+				<a href="/users/list.html" th:href="@{/users}" class="nav-link navbar-brand">ユーザ一覧</a>
+			</div>
+			<form action="#" th:action="@{/logout}" method="post" class="nav-tabs border-0">
+				<input type="submit" value="ログアウト" class="nav-link navbar-brand border-0">
+			</form>
+
+			<div>
+				<span sec:authentication="principal.userId">(userId)</span>: <span sec:authentication="principal.username">(name)</span>さんこんにちは
+			</div>
+		</div>
+	</nav>
 </header>

@@ -7,10 +7,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tweet.app.entity.UserData;
 import com.tweet.app.form.UserDataForm;
+import com.tweet.app.form.UserUpdateForm;
 import com.tweet.app.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +50,54 @@ public class UsersController {
 			return showCreationForm(form);
 		}
 
+		return "redirect:/users";
+	}
+
+	@GetMapping("/deleteConfirm/{userId}")
+	public String showDeleteConfirmForm(@PathVariable String userId, Model model) {
+		UserData user = userService.findByUserId(userId);
+		if (user == null) {
+			model.addAttribute("nouser", true);
+		} else {
+			model.addAttribute("user", user);
+		}
+		return "users/deleteConfirm";
+	}
+
+	@GetMapping("/updateForm/{userId}")
+	public String showUpdateForm(@PathVariable String userId, @ModelAttribute UserUpdateForm form, Model model) {
+		UserData user = userService.findByUserId(userId);
+		if (user == null) {
+			model.addAttribute("nouser", true);
+		} else {
+			form.setName(user.getName());
+			form.setRole(user.getRole());
+			form.setUserId(userId);
+		}
+		return "users/updateForm";
+	}
+
+	@PostMapping("/updateForm/{userId}")
+	public String showUpdateFormComfirm(@PathVariable String userId, @Validated UserUpdateForm form,
+			BindingResult bindingResult, Model model) {
+
+		// エラーチェック
+		if (bindingResult.hasErrors()) {
+			return showUpdateForm(userId, form, model);
+		}
+
+		return "users/updateFormConfirm";
+	}
+
+	@PostMapping("/updateUser")
+	public String updateUser(@ModelAttribute UserUpdateForm form) {
+		userService.updateUser(form.getUserId(), form.getName(), form.getRole());
+		return "redirect:/users";
+	}
+
+	@PostMapping("/deleteUser")
+	public String updateUser(String userId) {
+		userService.deleteUser(userId);
 		return "redirect:/users";
 	}
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta th:replace="/include/head" />
+<title>つぶやきアプリ</title>
+</head>
+<body>
+	<header th:replace="/include/header"></header>
+	
+	<main class="container">
+		<h1 class="mt-3">変更内容確認画面</h1>
+		<a href="/user/list.html" th:href="@{/users}">一覧へ</a>
+		<div class="w-50 m-auto">
+			<form th:object="${userUpdateForm}" action="#" th:action="@{/users/updateUser}" method="post" autocomplete="off">
+				<div class="mt-3">
+					<label for="userIdInput" class="form-label">ユーザID</label>
+					<input type="text" id="userIdInput" class="form-control" th:field="*{userId}" th:errorclass="is-invalid" readonly="readonly">
+				</div>
+				<div class="mt-3">
+					<label for="usernameInput" class="form-label">ユーザ名</label>
+					<input type="text" id="nameInput" class="form-control" th:field="*{name}" th:errorclass="is-invalid" readonly="readonly">
+				</div>
+
+				<div class="mt-3">
+					<label for="authorityDiv" class="form-label">権限</label>
+					<div id="authorityAdminDiv" class="form-check">
+						<input type="radio" id="authorityAdminInput" class="form-check-input" th:field="*{role}" th:errorclass="is-invalid" value="ADMIN" th:disabled="${userUpdateForm.role!='ADMIN'}">
+						<label for="authorityAdminInput" class="form-check-label">ADMIN</label>
+					</div>
+					<div id="authorityUserDiv" class="form-check">
+						<input type="radio" id="authorityUserInput" class="form-check-input" th:field="*{role}" th:errorclass="is-invalid" value="USER" th:disabled="${userUpdateForm.role!='USER'}">
+						<label for="authorityUserInput" class="form-check-label">USER</label>
+					</div>
+				</div>
+
+				<!--/* 通知メッセージ*/-->
+				<div class="alert alert-info" th:text="#{info.updateuserconfirm}">(updateuserconfirm)</div>
+
+				<div class="mt-3">
+					<input type="submit" value="変更" class="btn btn-primary">
+					<a href="/users/updateForm.html" th:href="@{/users/updateForm/{userId}(userId=${userUpdateForm.userId})}" class="btn btn-primary">キャンセル</a>
+				</div>
+			</form>
+		</div>
+	</main>
+	<footer th:replace="/include/footer"></footer>
+</body>
+</html>

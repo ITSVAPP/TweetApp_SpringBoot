@@ -8,7 +8,7 @@
 	<header th:replace="/include/header"></header>
 	<main class="container">
 		<h1>つぶやきアプリ</h1>
-		<table  class="table">
+		<table class="table">
 			<tr>
 				<th>名前</th>
 				<th>つぶやき</th>
@@ -16,12 +16,16 @@
 			</tr>
 			<tr th:each="tweet : ${tweetList}">
 				<td>
-					<a th:href="@{/tweetpersonal(userId=${tweet.userId})}" th:text="${tweet.name}"></a>
+					<a th:href="@{/tweetpersonal/{userId}(userId=${tweet.userId})}" th:text="${tweet.name}"></a>
 				</td>
 				<td th:text="${tweet.tweet}"></td>
 				<td th:text="${tweet.date}"></td>
 			</tr>
 		</table>
+		<div>
+		<a href="/tweetForm.html" th:href="@{/tweetForm}" class="btn btn-primary">つぶやく</a>
+		</div>
+
 	</main>
 	<footer th:replace="/include/footer"></footer>
 </body>

@@ -20,12 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionController implements ErrorController {
 
-	/**
-	 * Exception時の動作
-	 * 
-	 * @param ex
-	 * @return mav
-	 */
 	@ExceptionHandler({ Throwable.class })
 	public String throwableHandler(Throwable ex) {
 		//スタックトレースの表示

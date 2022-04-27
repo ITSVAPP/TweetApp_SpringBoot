@@ -25,4 +25,16 @@ public class UserService {
 		userRepository.insert(userId, name, passwordEncorder.encode(passowrd), roll);
 	}
 
+	public UserData findByUserId(String userId) {
+		return userRepository.findByUserId(userId);
+	}
+
+	public void updateUser(String userId, String name, String role) {
+		userRepository.update(userId, name, role);
+	}
+
+	public void deleteUser(String userId) {
+		userRepository.delete(userId);
+	}
+
 }

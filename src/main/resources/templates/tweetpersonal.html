@@ -7,7 +7,8 @@
 <body>
 	<header th:replace="/include/header"></header>
 	<main class="container">
-		<h1></h1>
+		<div th:if="${nouser}" class="alert alert-danger" th:text="#{error.nouser}">(error)</div>
+		<h1 th:if="!${nouser}" th:text="${userName} + 'さんのつぶやき'"></h1>
 		<table  class="table">
 			<tr>
 				<th>名前</th>
@@ -15,9 +16,7 @@
 				<th>日時</th>
 			</tr>
 			<tr th:each="tweet : ${tweetList}">
-				<td>
-					<a th:href="@{/tweetpersonal(userId=${tweet.userId})}" th:text="${tweet.name}"></a>
-				</td>
+				<td th:text="${tweet.name}"></td>
 				<td th:text="${tweet.tweet}"></td>
 				<td th:text="${tweet.date}"></td>
 			</tr>
