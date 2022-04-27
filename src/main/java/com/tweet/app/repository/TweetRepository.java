@@ -11,7 +11,6 @@ import com.tweet.app.entity.Tweet;
 
 @Mapper
 public interface TweetRepository {
-
 	@Select("select tweetid,tweet,tweet.userId,name,date from tweet inner join users where tweet.userid = users.userid order by date DESC")
 	List<Tweet> findAll();
 
@@ -20,5 +19,4 @@ public interface TweetRepository {
 
 	@Insert("insert into tweet (userId,tweet,date) values(#{userId}, #{tweet},now())")
 	void Insert(@Param("userId") String userId, @Param("tweet") String tweet);
-
 }

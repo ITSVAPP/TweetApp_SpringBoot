@@ -29,7 +29,7 @@ public class UserDataForm {
 
 	@AssertTrue
 	public boolean isSamePassword() {
-		// ヌルチェック
+		// Nullチェック
 		if (password == null || confirmPassword == null) {
 			return false;
 		}

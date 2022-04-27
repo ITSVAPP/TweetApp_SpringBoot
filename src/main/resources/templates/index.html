@@ -19,11 +19,11 @@
 					<a th:href="@{/tweetpersonal/{userId}(userId=${tweet.userId})}" th:text="${tweet.name}"></a>
 				</td>
 				<td th:text="${tweet.tweet}"></td>
-				<td th:text="${tweet.date}"></td>
+				<td th:text="${#dates.format(tweet.date,'yyyy/MM/dd HH:mm:ss')}"></td>
 			</tr>
 		</table>
 		<div>
-		<a href="/tweetForm.html" th:href="@{/tweetForm}" class="btn btn-primary">つぶやく</a>
+			<a href="/tweetForm.html" th:href="@{/tweetForm}" class="btn btn-primary">つぶやく</a>
 		</div>
 
 	</main>

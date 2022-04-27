@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
 <head>
 <meta th:replace="/include/head" />
 <title>つぶやきアプリ</title>
@@ -12,8 +12,11 @@
 		<div class="w-50 m-auto">
 			<form th:object="${tweetForm}" action="#" th:action="@{/tweetForm}" method="post">
 				<div class="form-floating">
-					<textarea class="form-control" id="tweetInput" placeholder="Leave a comment here" th:field="*{tweet}" ></textarea>
+					<textarea class="form-control" id="tweetInput" placeholder="Leave a comment here" th:field="*{tweet}"
+					th:errorclass="is-invalid"
+					></textarea>
 					<label for="tweetInput">つぶやき</label>
+					<p class="invalid-feedback" th:errors="*{tweet}">(error)</p>
 				</div>
 				<div class="mt-3">
 

@@ -18,7 +18,7 @@
 			<tr th:each="tweet : ${tweetList}">
 				<td th:text="${tweet.name}"></td>
 				<td th:text="${tweet.tweet}"></td>
-				<td th:text="${tweet.date}"></td>
+				<td th:text="${#dates.format(tweet.date,'yyyy/MM/dd HH:mm:ss')}"></td>
 			</tr>
 		</table>
 	</main>

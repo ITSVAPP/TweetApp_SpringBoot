@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
 <head>
 <meta th:replace="/include/head" />
 <title>つぶやきアプリ</title>
@@ -15,7 +15,7 @@
 				<th>名前</th>
 				<th>権限</th>
 			</tr>
-			<tr th:each="user,status : ${userList}" th:attr="onClick='location.href=\''+${'/users/updateForm/'+user.userId}+'\''">
+			<tr th:each="user,status : ${userList}" th:attr="onClick=|location.href='/users/updateForm/${user.userId}'|">
 				<td th:text="${status.count}"></td>
 				<td th:text="${user.userId}"></td>
 				<td th:text="${user.name}"></td>

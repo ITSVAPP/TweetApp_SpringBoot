@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
 <head>
 <meta th:replace="/include/head" />
-<title>つぶやき ログイン</title>
+<title>つぶやきアプリ</title>
 </head>
 <body>
 	<main class="container">
-
 		<h1>ログイン</h1>
-
 		<div class="w-50 m-auto">
 			<!--/* ログイン失敗時のエラーメッセージ */-->
 			<div th:if=${param.error} class="alert alert-danger" th:text="#{login.failed}">(faild)</div>
@@ -18,7 +16,7 @@
 			<form action="#" th:action="@{/login}" method="post">
 				<div class="mt-3">
 					<label for="userIdInput" class="form-label">ユーザID</label>
-					<input type="text" id="userIdInput" class="form-control" name="username">
+					<input type="text" id="userIdInput" class="form-control" name="userId">
 				</div>
 				<div class="mt-3">
 					<label for="passwordInput" class="form-label">パスワード</label>

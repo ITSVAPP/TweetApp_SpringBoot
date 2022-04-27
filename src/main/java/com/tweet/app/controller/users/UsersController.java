@@ -1,6 +1,5 @@
 package com.tweet.app.controller.users;
 
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tweet.app.entity.UserData;
+import com.tweet.app.exception.ApplicationException;
 import com.tweet.app.form.UserDataForm;
 import com.tweet.app.form.UserUpdateForm;
 import com.tweet.app.service.UserService;
@@ -38,15 +38,16 @@ public class UsersController {
 
 	@PostMapping("/creationUser")
 	public String createUser(@Validated UserDataForm form, BindingResult bindingResult, Model model) {
+
 		if (bindingResult.hasErrors()) {
 			return showCreationForm(form);
 		}
 
 		try {
 			userService.createUser(form.getUserId(), form.getName(), form.getPassword(), form.getRole());
-		} catch (DuplicateKeyException e) {
+		} catch (ApplicationException e) {
 			// 重複エラー設定
-			model.addAttribute("duplicatekeyerr", true);
+			model.addAttribute(e.getMessage(), true);
 			return showCreationForm(form);
 		}
 
@@ -55,25 +56,29 @@ public class UsersController {
 
 	@GetMapping("/deleteConfirm/{userId}")
 	public String showDeleteConfirmForm(@PathVariable String userId, Model model) {
-		UserData user = userService.findByUserId(userId);
-		if (user == null) {
-			model.addAttribute("nouser", true);
-		} else {
+
+		try {
+			UserData user = userService.findByUserId(userId);
 			model.addAttribute("user", user);
+		} catch (ApplicationException e) {
+			model.addAttribute(e.getMessage(), true);
 		}
 		return "users/deleteConfirm";
 	}
 
 	@GetMapping("/updateForm/{userId}")
 	public String showUpdateForm(@PathVariable String userId, @ModelAttribute UserUpdateForm form, Model model) {
-		UserData user = userService.findByUserId(userId);
-		if (user == null) {
-			model.addAttribute("nouser", true);
-		} else {
+
+		try {
+			UserData user = userService.findByUserId(userId);
+			model.addAttribute("user", user);
 			form.setName(user.getName());
 			form.setRole(user.getRole());
 			form.setUserId(userId);
+		} catch (ApplicationException e) {
+			model.addAttribute(e.getMessage(), true);
 		}
+
 		return "users/updateForm";
 	}
 

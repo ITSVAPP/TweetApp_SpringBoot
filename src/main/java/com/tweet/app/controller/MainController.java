@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tweet.app.auth.CustomUserDetails;
 import com.tweet.app.entity.UserData;
+import com.tweet.app.exception.ApplicationException;
 import com.tweet.app.form.TweetForm;
 import com.tweet.app.service.TweetService;
 import com.tweet.app.service.UserService;
@@ -38,12 +39,14 @@ public class MainController {
 
 	@GetMapping("/tweetpersonal/{userId}")
 	public String tweetPersonView(@PathVariable String userId, Model model) {
-		UserData user = userService.findByUserId(userId);
-		if (user == null) {
-			model.addAttribute("nouser", true);
-		} else {
+		UserData user;
+		try {
+			user = userService.findByUserId(userId);
 			model.addAttribute("userName", user.getName());
 			model.addAttribute("tweetList", tweetService.findByUserId(userId));
+
+		} catch (ApplicationException e) {
+			model.addAttribute(e.getMessage(), true);
 		}
 		return "tweetpersonal";
 	}
@@ -56,6 +59,10 @@ public class MainController {
 	@PostMapping("/tweetForm")
 	public String tweet(@Validated TweetForm form, BindingResult bindingResult,
 			@AuthenticationPrincipal CustomUserDetails user) {
+		// エラーチェック
+		if (bindingResult.hasErrors()) {
+			return showTweetForm(form);
+		}
 		tweetService.createTweet(user.getUserId(), form.getTweet());
 		return "redirect:/";
 	}

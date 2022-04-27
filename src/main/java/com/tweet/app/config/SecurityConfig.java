@@ -20,17 +20,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+		//認証不要の設定
 		http.authorizeRequests()
 				// 静的ファイルの除外
-				.mvcMatchers("/webjars/**", "/css/**", "/js/**", "/img/**", "/favicon.ico")
-				.permitAll()
-				// ログイン画面の除外
+				.mvcMatchers("/webjars/**", "/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll();
+
+		// 認証設定
+		http.authorizeRequests()
+				// ログイン画面
 				.mvcMatchers("/login/**").permitAll()
+				// 管理者ユーザのログイン箇所
 				.mvcMatchers("/users/**").hasAnyAuthority("ADMIN")
-				.anyRequest().authenticated()
-				.and()
+				.anyRequest().authenticated();
+
+		// ログイン画面
+		http
 				.formLogin()
-				.loginPage("/login").permitAll();
+				.loginPage("/login").permitAll()
+				.usernameParameter("userId") // ログインページのユーザーID
+				.passwordParameter("password");// ログインページのパスワード
 	}
 
 	@Override
