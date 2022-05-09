@@ -1,7 +1,5 @@
 package com.tweet.app.controller;
 
-import java.util.Date;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,11 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionController implements ErrorController {
 
 	@ExceptionHandler({ Throwable.class })
-	public String throwableHandler(Throwable ex) {
-		//スタックトレースの表示
-		ex.printStackTrace();
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("message", ex.getMessage());
+	public String throwableHandler(Throwable ex, Model model) {
+		// エラーログの出力
+		log.error(ex.getMessage());
+		model.addAttribute("systemerr", true);
 		return "error/error";
 	}
 
@@ -39,10 +35,14 @@ public class ExceptionController implements ErrorController {
 			return "redirect:/";
 		}
 
+		// 403 の場合は権限エラーのメッセージを表示させる
+		if (statusCode != null && "403".equals(statusCode.toString())) {
+			model.addAttribute("authorityerr", true);
+			return "error/error";
+		}
+
 		// 出力したい情報をセットする
-		model.addAttribute("timestamp", new Date());
-		model.addAttribute("status", statusCode);
-		model.addAttribute("path", request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI));
+		model.addAttribute("systemerr", true);
 		return "error/error";
 	}
 

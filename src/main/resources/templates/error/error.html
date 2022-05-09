@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>error</title>
+<meta th:replace="/include/head" />
+<title>つぶやきアプリ</title>
 </head>
 <body>
-	<div th:text="'timestamp: ' + ${timestamp}"></div>
-	<div th:text="'status: ' + ${status}"></div>
-	<div th:text="'error: ' + ${error}"></div>
-	<div th:text="'exception: ' + ${exception}"></div>
-	<div th:text="'message: ' + ${message}"></div>
-	<div th:text="'errors: ' + ${errors}"></div>
-	<div th:text="'trace: ' + ${trace}"></div>
-	<div th:text="'path: ' + ${path}"></div>
+	<main class="container">
+		<h1>システムエラー画面</h1>
+		<div class="m-auto">
+			<!--/* エラーメッセージ */-->
+			<div th:if="${systemerr}" class="alert alert-danger" th:text="#{error.systemerr}">(systemerr)</div>
+			<div th:if="${authorityerr}" class="alert alert-danger" th:text="#{error.authorityerr}">(authorityerr)</div>
+		</div>
+		
+		<div class="text-center">
+			<a href="/login" th:href="@{/login}" class="btn btn-primary">ログイン画面へ</a>
+		</div>
+	</main>
+	<footer th:replace="/include/footer"></footer>
 </body>
 </html>

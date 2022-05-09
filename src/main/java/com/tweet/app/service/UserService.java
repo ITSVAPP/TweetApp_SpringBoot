@@ -24,6 +24,7 @@ public class UserService {
 	}
 
 	public void createUser(String userId, String name, String passowrd, String roll) throws ApplicationException {
+
 		try {
 			userRepository.insert(userId, name, passwordEncorder.encode(passowrd), roll);
 		} catch (DuplicateKeyException e) {
