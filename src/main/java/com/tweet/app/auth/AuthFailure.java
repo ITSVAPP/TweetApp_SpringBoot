@@ -12,12 +12,15 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 /**
- * 認証失敗用Handler
- * SecurityConfigで以下を設定した場合動作する
- * failureHandler(new AuthFailure())
+ * 認証失敗用Handlerクラス
+ * 
+ * 認証失敗用HandlerSecurityConfigで failureHandler(new AuthFailure()) を設定した場合動作する
  */
 public class AuthFailure implements AuthenticationFailureHandler {
 
+	/**
+	 * 認証失敗用Handler
+	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {

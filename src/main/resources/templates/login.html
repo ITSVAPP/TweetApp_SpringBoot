@@ -9,9 +9,9 @@
 		<h1>ログイン</h1>
 		<div class="w-50 m-auto">
 			<!--/* ログイン失敗時のエラーメッセージ */-->
-			<div th:if=${param.error} class="alert alert-danger" th:text="#{login.failed}">(faild)</div>
+			<div th:if=${param.error} class="alert alert-danger" th:text="#{error.loginfailed}">(faild)</div>
 			<!--/* ログアウト時のエラーメッセージ*/-->
-			<div th:if=${param.logout} class="alert alert-info" th:text="#{login.logoutcomplete}">(logoutcomplete)</div>
+			<div th:if=${param.logout} class="alert alert-info" th:text="#{info.logoutcomplete}">(logoutcomplete)</div>
 
 			<form action="#" th:action="@{/login}" method="post">
 				<div class="mt-3">

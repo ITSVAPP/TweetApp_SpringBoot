@@ -7,6 +7,10 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * ユーザーフォーム
+ *
+ */
 @Data
 @AllArgsConstructor
 public class UserDataForm {

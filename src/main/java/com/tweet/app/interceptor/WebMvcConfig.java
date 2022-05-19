@@ -7,15 +7,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * MVC設定
+ *
+ */
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final HandlerInterceptor controllerInterceptor;
 
+	/**
+	 * インターセプト登録
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// インターセプト登録
 		registry.addInterceptor(controllerInterceptor);
 	}
 }

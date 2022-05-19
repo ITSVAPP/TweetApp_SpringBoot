@@ -5,6 +5,10 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * つぶやき
+ *
+ */
 @Data
 @AllArgsConstructor
 public class Tweet {

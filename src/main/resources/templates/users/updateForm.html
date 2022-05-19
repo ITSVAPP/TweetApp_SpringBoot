@@ -9,10 +9,11 @@
 	<main class="container">
 		<h1 class="mt-3">管理者用ユーザー情報変更</h1>
 		<a href="/user/list.html" th:href="@{/users}">一覧へ</a>
-		<div th:if="${nouser}" class="alert alert-danger" th:text="#{error.nouser}">(error)</div>	
-		<div th:if="!${nouser}" class="w-50 m-auto">
+		<div th:if="${noUserErrMessage}" class="alert alert-danger" th:text="${noUserErrMessage}">(error)</div>
+		
+		<div class="w-50 m-auto" th:if="!${noUserErrMessage}">
 			<form th:object="${userUpdateForm}" action="#" th:action="@{/users/updateForm/{userId}(userId=${userId})}" method="post" autocomplete="off">
-				<div th:if="${duplicatekeyerr}" class="alert alert-danger" th:text="#{error.duplicatekeyerr}">(error)</div>
+				<div th:if="${errMessage}" class="alert alert-danger" th:text="${errMessage}">(error)</div>
 				<div class="mt-3">
 					<label for="userIdInput" class="form-label">ユーザID</label>
 					<input type="text" id="userIdInput" class="form-control" th:field="*{userId}" th:errorclass="is-invalid" readonly="readonly">

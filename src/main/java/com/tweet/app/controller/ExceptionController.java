@@ -12,11 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 例外コントローラー
+ *
+ * 例外処理の共通コントローラー
+ *
+ */
 @Controller
-@ControllerAdvice // @ExceptionHandler用
+@ControllerAdvice
 @Slf4j
 public class ExceptionController implements ErrorController {
 
+	/**
+	 * Exceptionハンドラー
+	 * 
+	 * @param ex
+	 * @param model
+	 * @return
+	 */
 	@ExceptionHandler({ Throwable.class })
 	public String throwableHandler(Throwable ex, Model model) {
 		// エラーログの出力
@@ -25,8 +38,15 @@ public class ExceptionController implements ErrorController {
 		return "error/error";
 	}
 
+	/**
+	 * 独自エラー画面
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("${server.error.path:${error.path:/error}}")
-	public String myErrorHtml(HttpServletRequest request, Model model) {
+	public String errorHtml(HttpServletRequest request, Model model) {
 		Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
 		// 404 の場合はデフォルトページへ遷移させる

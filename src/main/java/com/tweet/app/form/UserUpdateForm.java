@@ -5,6 +5,10 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * ユーザー変更フォーム
+ *
+ */
 @Data
 @AllArgsConstructor
 public class UserUpdateForm {

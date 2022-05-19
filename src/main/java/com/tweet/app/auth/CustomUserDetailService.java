@@ -15,12 +15,20 @@ import com.tweet.app.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * カスタムユーザサービス
+ *
+ * SpringSecurityのサービスクラス
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
 	private final UserRepository userRepositry;
 
+	/**
+	 * ログイン時の実行ハンドラー
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
@@ -34,6 +42,12 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	}
 
+	/**
+	 * 権限作成
+	 * 
+	 * @param role
+	 * @return
+	 */
 	private List<GrantedAuthority> toGrantedAuthority(String role) {
 		return Collections.singletonList(new SimpleGrantedAuthority(role));
 	}

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tweet.app.entity.UserData;
 import com.tweet.app.exception.ApplicationException;
+import com.tweet.app.form.UserDataForm;
+import com.tweet.app.form.UserUpdateForm;
 import com.tweet.app.repository.UserRepository;
 
 @SpringBootTest
@@ -28,6 +31,12 @@ class UserServiceTest {
 
 	@MockBean
 	PasswordEncoder passwordEncorder;
+
+	@Value("${error.duplicatekeyerr}")
+	private String duplicatekeyErrMsg;
+
+	@Value("${error.nouser}")
+	private String noUserErrMsg;
 
 	@Test
 	void findAllの正常テスト() throws Exception {
@@ -66,7 +75,7 @@ class UserServiceTest {
 		try {
 			target.findByUserId("tmp");
 		} catch (ApplicationException e) {
-			String expected = "nouser";
+			String expected = noUserErrMsg;
 			assertEquals(expected, e.getMessage());
 		}
 	}
@@ -77,21 +86,24 @@ class UserServiceTest {
 		doNothing().when(userRepository).insert("userId", "name", "encortedpassword", "role");
 		when(passwordEncorder.encode("password")).thenReturn("encortedpassword");
 
+		UserDataForm form = new UserDataForm("userId", "name", "password", "password", "role");
+
 		// 実行
-		target.createUser("userId", "name", "password", "role");
+		target.createUser(form);
 	}
 
 	@Test
 	void createUserの例外テスト() throws Exception {
 		// テストスタブ作成
-		doThrow(new DuplicateKeyException(null))
-				.when(userRepository).insert("userId", "name", "encortedpassword", "role");
+		doThrow(new DuplicateKeyException(null)).when(userRepository).insert("userId", "name", "encortedpassword",
+				"role");
 		when(passwordEncorder.encode("password")).thenReturn("encortedpassword");
 		// 実行
 		try {
-			target.createUser("userId", "name", "password", "role");
+			UserDataForm form = new UserDataForm("userId", "name", "password", "password", "role");
+			target.createUser(form);
 		} catch (ApplicationException e) {
-			String expected = "duplicatekeyerr";
+			String expected = duplicatekeyErrMsg;
 			// メッセージ確認
 			assertEquals(expected, e.getMessage());
 		}
@@ -102,8 +114,10 @@ class UserServiceTest {
 		// テストスタブ作成
 		doNothing().when(userRepository).update("userId", "name", "role");
 
+		UserUpdateForm form = new UserUpdateForm("userId", "name", "role");
+
 		// 実行
-		target.updateUser("userId", "name", "role");
+		target.updateUser(form);
 	}
 
 	@Test

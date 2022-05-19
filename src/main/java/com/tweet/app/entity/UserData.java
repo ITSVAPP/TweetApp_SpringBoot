@@ -3,6 +3,10 @@ package com.tweet.app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * ユーザー
+ *
+ */
 @Data
 @AllArgsConstructor
 public class UserData {

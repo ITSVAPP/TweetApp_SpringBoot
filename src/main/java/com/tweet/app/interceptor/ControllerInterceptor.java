@@ -10,13 +10,20 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * コントローラーインターセプタークラス
+ *
+ */
 @Component
 @Slf4j
 public class ControllerInterceptor implements HandlerInterceptor {
 
+	/**
+	 * 前処理ハンドラー
+	 */
 	@Override
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		// コントローラー実行前に行いたい処理を記述する
 
 		if (handler instanceof ResourceHttpRequestHandler) {

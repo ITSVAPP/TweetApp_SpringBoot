@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 業務エラー
+ *
+ */
 @AllArgsConstructor
 public class ApplicationException extends Exception {
 
@@ -13,10 +17,18 @@ public class ApplicationException extends Exception {
 	@Setter
 	private List<String> messageList;
 
+	/**
+	 * デフォルトコンストラクタ
+	 */
 	public ApplicationException() {
 		super();
 	}
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param message
+	 */
 	public ApplicationException(String message) {
 		super(message);
 	}
