@@ -1,6 +1,5 @@
 package com.tweet.app.service;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -46,12 +45,12 @@ class UserServiceTest {
 		when(userRepository.findAll()).thenReturn(rtnUserList);
 
 		// 実行
-		List<UserData> result = target.findAll();
+		List<UserData> actual = target.findAll();
 
 		// 比較
 		UserData expectedUser = new UserData("userId", "name", "password", "role");
 		List<UserData> expected = Collections.singletonList(expectedUser);
-		assertThat(result).isEqualTo(expected);
+		assertEquals(expected, actual);
 	}
 
 	@Test
@@ -61,11 +60,12 @@ class UserServiceTest {
 		when(userRepository.findByUserId("tmp")).thenReturn(rtnUser);
 
 		// 実行
-		UserData result = target.findByUserId("tmp");
+		UserData actual = target.findByUserId("tmp");
 
 		// 比較
-		UserData expecteed = new UserData("userId", "name", "password", "role");
-		assertThat(result).isEqualTo(expecteed);
+		UserData expected = new UserData("userId", "name", "password", "role");
+		assertEquals(expected, actual);
+
 	}
 
 	@Test

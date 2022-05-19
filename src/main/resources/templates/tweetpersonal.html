@@ -7,8 +7,8 @@
 <body>
 	<header th:replace="/include/header"></header>
 	<main class="container">
-		<div th:if="${nouser}" class="alert alert-danger" th:text="#{error.nouser}">(error)</div>
-		<h1 th:if="!${nouser}" th:text="${userName} + 'さんのつぶやき'"></h1>
+		<div th:if="${errMessage}" class="alert alert-danger" th:text="${errMessage}">(error)</div>
+		<h1 th:if="!${errMessage}" th:text="${userName} + 'さんのつぶやき'"></h1>
 		<table  class="table">
 			<tr>
 				<th>名前</th>

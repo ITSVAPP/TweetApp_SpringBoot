@@ -2,9 +2,11 @@ package com.tweet.app.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.tweet.app.entity.Tweet;
+import com.tweet.app.exception.ApplicationException;
 import com.tweet.app.repository.TweetRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 public class TweetService {
 
 	private final TweetRepository tweetRepository;
+
+	@Value("${error.nouser}")
+	private String noUserErrMsg;
 
 	/**
 	 * 全検索
@@ -33,9 +38,16 @@ public class TweetService {
 	 * 
 	 * @param userId
 	 * @return
+	 * @throws ApplicationException
 	 */
-	public List<Tweet> findByUserId(String userId) {
-		return tweetRepository.findbyUserId(userId);
+	public List<Tweet> findByUserId(String userId) throws ApplicationException {
+		List<Tweet> tweetList = tweetRepository.findbyUserId(userId);
+
+		if (tweetList.isEmpty()) {
+			throw new ApplicationException(noUserErrMsg);
+		}
+
+		return tweetList;
 	}
 
 	/**

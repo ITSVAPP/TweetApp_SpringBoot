@@ -69,7 +69,7 @@ public class MainController {
 			model.addAttribute("tweetList", tweetService.findByUserId(userId));
 
 		} catch (ApplicationException e) {
-			model.addAttribute(e.getMessage(), true);
+			model.addAttribute("errMessage", e.getMessage());
 		}
 		return "tweetpersonal";
 	}
