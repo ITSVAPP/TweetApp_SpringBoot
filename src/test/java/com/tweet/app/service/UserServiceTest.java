@@ -3,30 +3,30 @@ package com.tweet.app.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.tweet.app.entity.UserData;
 import com.tweet.app.exception.ApplicationException;
 import com.tweet.app.form.UserDataForm;
 import com.tweet.app.form.UserUpdateForm;
-import com.tweet.app.repository.UserRepository;
 
-@SpringBootTest
+@MybatisTest
+@Import(UserService.class) // MybatisTest使用時にtargetが依存注入されないため手動でインポート
+@TestPropertySource(locations = "/application-test.properties") // プロパティファイルの指定
 class UserServiceTest {
 	@Autowired
 	UserService target;
-
-	@MockBean
-	UserRepository userRepository;
 
 	@MockBean
 	PasswordEncoder passwordEncorder;
@@ -37,40 +37,37 @@ class UserServiceTest {
 	@Value("${error.nouser}")
 	private String noUserErrMsg;
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void findAllの正常テスト() throws Exception {
-		// テストスタブ作成
-		UserData rtnUser = new UserData("userId", "name", "password", "role");
-		List<UserData> rtnUserList = Collections.singletonList(rtnUser);
-		when(userRepository.findAll()).thenReturn(rtnUserList);
+		// 期待
+		List<UserData> expected = new ArrayList<UserData>();
+		expected.add(new UserData("userId1", "name1", "password1", "role1"));
+		expected.add(new UserData("userId2", "name2", "password2", "role2"));
 
 		// 実行
 		List<UserData> actual = target.findAll();
 
 		// 比較
-		UserData expectedUser = new UserData("userId", "name", "password", "role");
-		List<UserData> expected = Collections.singletonList(expectedUser);
 		assertEquals(expected, actual);
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void findByUserIdの正常テスト() throws Exception {
-		// テストスタブの作成
-		UserData rtnUser = new UserData("userId", "name", "password", "role");
-		when(userRepository.findByUserId("tmp")).thenReturn(rtnUser);
 
+		// 期待
+		UserData expected = new UserData("userId1", "name1", "password1", "role1");
 		// 実行
-		UserData actual = target.findByUserId("tmp");
+		UserData actual = target.findByUserId("userId1");
 
-		// 比較
-		UserData expected = new UserData("userId", "name", "password", "role");
 		assertEquals(expected, actual);
 
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void findByUserIdの例外テスト() throws Exception {
-		when(userRepository.findByUserId("tmp")).thenReturn(null);
 		// 実行
 		try {
 			target.findByUserId("tmp");
@@ -80,10 +77,10 @@ class UserServiceTest {
 		}
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void createUserの正常テスト() throws Exception {
 		// テストスタブ作成
-		doNothing().when(userRepository).insert("userId", "name", "encortedpassword", "role");
 		when(passwordEncorder.encode("password")).thenReturn("encortedpassword");
 
 		UserDataForm form = new UserDataForm("userId", "name", "password", "password", "role");
@@ -92,15 +89,14 @@ class UserServiceTest {
 		target.createUser(form);
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void createUserの例外テスト() throws Exception {
 		// テストスタブ作成
-		doThrow(new DuplicateKeyException(null)).when(userRepository).insert("userId", "name", "encortedpassword",
-				"role");
 		when(passwordEncorder.encode("password")).thenReturn("encortedpassword");
 		// 実行
 		try {
-			UserDataForm form = new UserDataForm("userId", "name", "password", "password", "role");
+			UserDataForm form = new UserDataForm("userId1", "name", "password", "password", "role");
 			target.createUser(form);
 		} catch (ApplicationException e) {
 			String expected = duplicatekeyErrMsg;
@@ -109,23 +105,21 @@ class UserServiceTest {
 		}
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void updateUserの正常テスト() throws Exception {
-		// テストスタブ作成
-		doNothing().when(userRepository).update("userId", "name", "role");
 
-		UserUpdateForm form = new UserUpdateForm("userId", "name", "role");
+		UserUpdateForm form = new UserUpdateForm("userId1", "name", "role");
 
 		// 実行
 		target.updateUser(form);
 	}
 
+	@Sql("/testdata/users/user01.sql")
 	@Test
 	void deleteUserの正常テスト() throws Exception {
-		// テストスタブ作成
-		doNothing().when(userRepository).delete("userId");
 		// 実行
-		target.deleteUser("userId");
+		target.deleteUser("userId1");
 	}
 
 }
