@@ -1,9 +1,9 @@
 package com.tweet.app.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -25,25 +25,19 @@ class TweetServiceTest {
 
 	@Test
 	void findAllの正常テスト() throws Exception {
-		when(tweetRepository.findAll()).thenReturn(Collections.singletonList(new Tweet(0, null, null, null, null)));
+		List<Tweet> rtnTweetList = new ArrayList<Tweet>();
+		rtnTweetList.add(new Tweet(1, "tweet1", "user1", "username1", null));
+		rtnTweetList.add(new Tweet(2, "tweet2", "user2", "username2", null));
 
-		List<Tweet> result = target.findAll();
-		assertThat(result).isEqualTo(Collections.singletonList(new Tweet(0, null, null, null, null)));
-	}
+		List<Tweet> expected = new ArrayList<Tweet>();
+		expected.add(new Tweet(1, "tweet1", "user1", "username1", null));
+		expected.add(new Tweet(2, "tweet2", "user2", "username2", null));
 
-	@Test
-	void findByUserIdの正常テスト() throws Exception {
-		when(tweetRepository.findbyUserId("tmp"))
-				.thenReturn(Collections.singletonList(new Tweet(0, null, null, null, null)));
+		when(tweetRepository.findAll()).thenReturn(rtnTweetList);
 
-		List<Tweet> result = target.findByUserId("tmp");
-		assertThat(result).isEqualTo(Collections.singletonList(new Tweet(0, null, null, null, null)));
-	}
+		List<Tweet> actual = target.findAll();
 
-	@Test
-	void createTweetの正常テスト() throws Exception {
-		doNothing().when(tweetRepository).Insert("tmp", "tmp");
-		target.createTweet("tmp", "tmp");
+		assertEquals(actual, expected);
 	}
 
 }
