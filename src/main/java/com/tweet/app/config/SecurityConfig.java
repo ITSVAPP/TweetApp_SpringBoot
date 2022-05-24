@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 認証不要の設定
 		http.authorizeRequests()
 				// 静的ファイルの除外
-				.mvcMatchers("/webjars/**", "/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll();
+				.mvcMatchers("/webjars/**", "/css/**", "/js/**", "/img/**", "/favicon.ico", "/fonts/**", "/upload/**")
+				.permitAll();
 
 		// 認証設定
 		http.authorizeRequests()

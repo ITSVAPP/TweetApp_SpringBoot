@@ -58,11 +58,11 @@ class UserServiceTest {
 
 		// 期待
 		UserData expected = new UserData("userId1", "name1", "password1", "role1");
+
 		// 実行
 		UserData actual = target.findByUserId("userId1");
 
 		assertEquals(expected, actual);
-
 	}
 
 	@Sql("/testdata/users/user01.sql")

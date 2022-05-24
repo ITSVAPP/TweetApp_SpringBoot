@@ -16,18 +16,18 @@ import org.springframework.test.context.jdbc.Sql;
 import com.tweet.app.entity.Tweet;
 
 @MybatisTest
-@Import(TweetService.class)
+@Import(TweetService.class) // Injectするクラスのインポート
 @TestPropertySource(locations = "/application-test.properties") // プロパティファイルの指定
 class TweetServiceTest {
 
 	@Autowired
 	TweetService target;
 
-	@Sql("/testdata/tweet/tweet01.sql")
+	@Sql("/testdata/tweet/tweet01.sql") // テストデータの指定
 	@Test
 	void findAllの正常テスト() throws Exception {
 
-		// 取り扱う日付の形にフォーマット設定
+		// 取り扱う日付の形にフォーマットを作成
 		SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 		List<Tweet> expected = new ArrayList<Tweet>();
