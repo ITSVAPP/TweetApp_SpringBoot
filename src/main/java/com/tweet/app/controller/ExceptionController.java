@@ -42,7 +42,7 @@ public class ExceptionController implements ErrorController {
 		ex.printStackTrace();
 		// エラーログの出力
 		log.error(ex.getMessage());
-		model.addAttribute("errorMessage", systemErrMsg);
+		model.addAttribute("errMessage", systemErrMsg);
 		return "error/error";
 	}
 
@@ -65,7 +65,7 @@ public class ExceptionController implements ErrorController {
 
 		// 403 の場合は権限エラーのメッセージを表示させる
 		if (statusCode != null && "403".equals(statusCode.toString())) {
-			model.addAttribute("errorMessage", authorityErrMsg);
+			model.addAttribute("errMessage", authorityErrMsg);
 			return "error/error";
 		}
 
