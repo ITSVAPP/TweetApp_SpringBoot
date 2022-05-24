@@ -1,6 +1,7 @@
 package com.tweet.app.form;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class UserUpdateForm {
 	private String userId;
 
 	@NotBlank
+	@Size(max = 100)
 	private String name;
 
 	@NotBlank

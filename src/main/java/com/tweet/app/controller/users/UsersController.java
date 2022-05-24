@@ -109,7 +109,13 @@ public class UsersController {
 	 * @return
 	 */
 	@GetMapping("/updateForm/{userId}")
-	public String showUpdateForm(@PathVariable String userId, @ModelAttribute UserUpdateForm form, Model model) {
+	public String showUpdateForm(@PathVariable String userId, @ModelAttribute UserUpdateForm form, Model model,
+			BindingResult bindingResult) {
+
+		// 業務エラー時、前の入力情報を引き継ぐ
+		if (bindingResult.hasErrors()) {
+			return "users/updateForm";
+		}
 
 		try {
 			UserData user = userService.findByUserId(userId);
@@ -139,7 +145,7 @@ public class UsersController {
 
 		// エラーチェック
 		if (bindingResult.hasErrors()) {
-			return showUpdateForm(userId, form, model);
+			return showUpdateForm(userId, form, model, bindingResult);
 		}
 
 		return "users/updateFormConfirm";

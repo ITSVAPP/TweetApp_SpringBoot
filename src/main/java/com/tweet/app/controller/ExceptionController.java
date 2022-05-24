@@ -3,6 +3,7 @@ package com.tweet.app.controller;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionController implements ErrorController {
 
+	@Value("${error.systemerr}")
+	private String systemErrMsg;
+
+	@Value("${error.authorityerr}")
+	private String authorityErrMsg;
+
 	/**
 	 * Exceptionハンドラー
 	 * 
@@ -32,9 +39,10 @@ public class ExceptionController implements ErrorController {
 	 */
 	@ExceptionHandler({ Throwable.class })
 	public String throwableHandler(Throwable ex, Model model) {
+		ex.printStackTrace();
 		// エラーログの出力
 		log.error(ex.getMessage());
-		model.addAttribute("systemerr", true);
+		model.addAttribute("errorMessage", systemErrMsg);
 		return "error/error";
 	}
 
@@ -57,7 +65,7 @@ public class ExceptionController implements ErrorController {
 
 		// 403 の場合は権限エラーのメッセージを表示させる
 		if (statusCode != null && "403".equals(statusCode.toString())) {
-			model.addAttribute("authorityerr", true);
+			model.addAttribute("errorMessage", authorityErrMsg);
 			return "error/error";
 		}
 

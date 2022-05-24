@@ -16,13 +16,15 @@ import lombok.Data;
 public class UserDataForm {
 
 	@NotBlank
+	@Size(max = 20)
 	private String userId;
 
 	@NotBlank
+	@Size(max = 100)
 	private String name;
 
 	@NotBlank
-	@Size(min = 2, max = 128)
+	@Size(min = 2, max = 30)
 	private String password;
 
 	@NotBlank
