@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// ログイン画面
 		http.formLogin().loginPage("/login").permitAll().usernameParameter("userId") // ログインページのユーザーID
 				.passwordParameter("password");// ログインページのパスワード
+
+		// WebAPI用
+		http.authorizeRequests().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+
 	}
 
 	/**

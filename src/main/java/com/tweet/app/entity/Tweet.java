@@ -4,6 +4,7 @@ import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * つぶやき
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Tweet {
 
 	private int tweetId;
@@ -22,5 +24,9 @@ public class Tweet {
 	private String name;
 
 	private Date date;
+	
+	private String imgUrl;
+	
+	private String iconUrl;
 
 }

@@ -18,4 +18,6 @@ public class UserData {
 	private String password;
 
 	private String role;
+	
+	private String iconUrl;
 }

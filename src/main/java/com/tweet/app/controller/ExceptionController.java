@@ -57,6 +57,7 @@ public class ExceptionController implements ErrorController {
 
 		// 403 の場合は権限エラーのメッセージを表示させる
 		if (statusCode != null && "403".equals(statusCode.toString())) {
+			log.info("権限エラー");
 			model.addAttribute("authorityerr", true);
 			return "error/error";
 		}

@@ -35,7 +35,7 @@ set character_set_connection=utf8;
 
 ##①USERS テーブル(passwordはpass)
 INSERT INTO USERS VALUES ('u0001','あきら', '2691014f61ad465cdfd4885c5cc5e35e93a6ad43c7d94c4ba7ce616c594b0126f09df66474492216','USER','/img/icon/u0001.jpg');
-INSERT INTO USERS VALUES ('a0001','たかし', '30c17acc66db1a90cd0e4533fe11661bf90599eca5624205999b057f4ff75a5e7777a3c1f2aba000','ADMIN','/img/icon/a0002.jpg');
+INSERT INTO USERS VALUES ('a0001','たかし', '30c17acc66db1a90cd0e4533fe11661bf90599eca5624205999b057f4ff75a5e7777a3c1f2aba000','ADMIN','/img/icon/a0001.jpg');
 
 ##②DESTINATIONテーブル　データ追加
 INSERT INTO TWEET (USERID,TWEET,DATE) VALUES('u0001','これが３度目のつぶやきです。','2020/12/06 23:01:34');

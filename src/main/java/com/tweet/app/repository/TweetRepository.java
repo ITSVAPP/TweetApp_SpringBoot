@@ -18,7 +18,7 @@ public interface TweetRepository {
 	/**
 	 * 全検索
 	 */
-	@Select("select tweetid,tweet,tweet.userId,name,date from tweet inner join users where tweet.userid = users.userid order by date DESC")
+	@Select("select tweetid,tweet,tweet.userId,name,date,icon_url,img_url from tweet inner join users where tweet.userid = users.userid order by date DESC")
 	List<Tweet> findAll();
 
 	/**

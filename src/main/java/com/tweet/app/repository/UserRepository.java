@@ -65,4 +65,12 @@ public interface UserRepository {
 	@Delete("delete from users where userid=#{userId}")
 	void delete(String userId);
 
+	/**
+	 * アイコン変更
+	 * 
+	 * 
+	 */
+	@Update("update users set icon_url=#{iconUrl} where userid=#{userId}")
+	void changeIcon(@Param("userId") String userId, @Param("iconUrl") String iconUrl);
+
 }

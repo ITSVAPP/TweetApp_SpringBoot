@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tweet.app.entity.UserData;
 import com.tweet.app.exception.ApplicationException;
+import com.tweet.app.form.IconChangeForm;
 import com.tweet.app.form.UserDataForm;
 import com.tweet.app.form.UserUpdateForm;
 import com.tweet.app.repository.UserRepository;
@@ -25,6 +28,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncorder;
+	private final ImgStorageService imgStorageService;
 
 	@Value("${error.duplicatekeyerr}")
 	private String duplicatekeyErrMsg;
@@ -93,6 +97,21 @@ public class UserService {
 	 */
 	public void deleteUser(String userId) {
 		userRepository.delete(userId);
+	}
+
+	/**
+	 * アイコン変更
+	 * 
+	 * @param form
+	 * @param file
+	 * @throws ApplicationException
+	 */
+	@Transactional
+	public void changeUserIcon(IconChangeForm form, MultipartFile file) throws ApplicationException {
+		String filePath = String.format("img/icon/%s.%s", form.getUserId(), form.getImageType());
+		imgStorageService.storage(file, filePath);
+		userRepository.changeIcon(form.getUserId(), "/" + filePath);
+		imgStorageService.deleteBeforeImgFile(form.getUserId(), form.getUserId() + "." + form.getImageType());
 	}
 
 }

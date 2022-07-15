@@ -16,7 +16,10 @@
 			</tr>
 			<tr th:each="tweet : ${tweetList}">
 				<td>
-					<a th:href="@{/tweetpersonal/{userId}(userId=${tweet.userId})}" th:text="${tweet.name}"></a>
+					<a th:href="@{/tweetpersonal/{userId}(userId=${tweet.userId})}" class="icon"> 
+						<img alt="ユーザーアイコン" th:src="${tweet.iconUrl}" />
+						<span th:text="${tweet.name}"></span>
+					</a>
 				</td>
 				<td th:text="${tweet.tweet}"></td>
 				<td th:text="${#dates.format(tweet.date,'yyyy/MM/dd HH:mm:ss')}"></td>
