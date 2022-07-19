@@ -1,3 +1,5 @@
+let cropper;
+
 /**
 * 丸くトリミング
 */
@@ -22,32 +24,37 @@ const getRoundedCanvas = (sourceCanvas) => {
 リクエスト
 */
 const changeIcon = async (blob) => {
+	const userId = document.getElementById("userIdInput").value;
+	const imageType = document.getElementById("triming_image").files[0].type.replace("image/", "");
 
-	var trimedImageForm = new FormData();
+	const trimedImageForm = new FormData();
 	trimedImageForm.append('file', blob);
 	trimedImageForm.append('userId', userId);
 	trimedImageForm.append('imageType', imageType);
 
 	const xsrf = Cookies.get('XSRF-TOKEN');
-	const response = await fetch("/users/rest/changeIcon", {
-		method: "POST",   // GET POST PUT DELETEなど
-		headers: {
-			'X-XSRF-TOKEN': xsrf
-		},
-		body: trimedImageForm    // リクエスト本文をセット
-	});
 
-	const data = await response;
-	console.log(data);
+	try {
+		const response = await fetch("/users/rest/changeIcon", {
+			method: "POST",   // GET POST PUT DELETEなど
+			headers: {
+				'X-XSRF-TOKEN': xsrf
+			},
+			body: trimedImageForm    // リクエスト本文をセット
+		});
+		const data = await response;
+		console.log(data);
+	} catch (e) {
+		console.error("ネットワークエラー", e)
+	}
 }
-
-let imageType;
 
 $(function() {
 	$('#triming_image').on('change', function(event) {
+
 		var trimingImage = event.target.files;
 
-		// imageタグは1つしかファイルを送信できない仕組みと複数送信する仕組みの二通りありますので、サーバー側でチェックを忘れないようにしてください。
+		// imageタグは1つしかファイルを送信できない仕組みと複数送信するパターンがある
 		if (trimingImage.length > 1) {
 			console.log(trimingImage.length + 'つのファイルが選択されました。');
 			return false;
@@ -56,7 +63,7 @@ $(function() {
 		// 改め代入します。
 		trimingImage = trimingImage[0];
 
-		// 画像のチェックを行いますが、あくまでjsでのチェックなのでサーバーサイドでもう一度チェックを行ってください。
+		// 画像のチェック
 		if (!trimingImage.type.match('image/jp.*') // jpg jpeg でない
 			&& !trimingImage.type.match('image/png') // png でない
 			&& !trimingImage.type.match('image/gif') // gif でない
@@ -81,17 +88,14 @@ $(function() {
 				// success
 				$('#trimed_image').css('display', 'block');
 				$('#trimed_image').attr('src', URL.createObjectURL(trimingImage));
-				imageType = trimingImage.type.replace("image/", "");
 				return true;
 			} else {
 				// failed
 				alert('No Support ' + trimingImage.type + ' type image');
-
 				$('#trimed_image').val('');
 				return false;
 			}
 		};
-
 
 		fileReader.readAsArrayBuffer(trimingImage);
 		fileReader.onloadend = function(e) {
@@ -99,7 +103,13 @@ $(function() {
 			var button = document.getElementById('crop_btn');
 
 			var croppable = false;
-			var cropper = new Cropper(image, {
+
+			// 前データの破棄
+			if (cropper) {
+				cropper.destroy();
+			}
+
+			cropper = new Cropper(image, {
 				aspectRatio: 1,
 				viewMode: 1,
 				ready: function() {
@@ -119,33 +129,13 @@ $(function() {
 				croppedCanvas = cropper.getCroppedCanvas();
 				// 下記toBlob関数はブラウザによって名前が異なる
 				var blob;
-				const userId = document.getElementById("userIdInput").value;
 				if (croppedCanvas.toBlob) {
 					croppedCanvas.toBlob(function(blob) {
-						var trimedImageForm = new FormData();
-						trimedImageForm.append('file', blob);
-						trimedImageForm.append('userId', userId);
-						trimedImageForm.append('imageType', imageType);
-
-						try {
-							changeIcon(trimedImageForm);
-						} catch (e) {
-							console.log(e);
-						}
+						changeIcon(blob);
 					});
 				} else if (croppedCanvas.msToBlob) {
 					blob = croppedCanvas.msToBlob();
-					var trimedImageForm = new FormData();
-					trimedImageForm.append('file', blob);
-					trimedImageForm.append('userId', userId);
-					trimedImageForm.append('imageType', imageType);
-
-					try {
-						changeIcon(trimedImageForm);
-					} catch (e) {
-						console.log(e);
-					}
-
+					changeIcon(blob);
 				} else {
 					imageURL = canvas.toDataURL();
 				}
