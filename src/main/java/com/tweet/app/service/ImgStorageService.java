@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
@@ -47,25 +48,34 @@ public class ImgStorageService {
 	// ファイルが画像なのか判定
 	private boolean isImageFileByImageIO(MultipartFile file) throws IOException {
 		// MultipartFileをFile形式に変換
-		File convFile = new File(file.getOriginalFilename());
-		// 拡張子を除いたファイル名を取得
-		convFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(convFile);
-		fos.write(file.getBytes());
-		fos.close();
+		String tmpFilename = UUID.randomUUID().toString();
+		File convFile = new File(tmpFilename);
 
-		// ImageIOで、ファイルを読み込み
-		if (convFile != null && convFile.isFile()) {
-			BufferedImage bi = ImageIO.read(convFile);
+		try {
+			convFile.createNewFile();
+			FileOutputStream fos = new FileOutputStream(convFile);
+			fos.write(file.getBytes());
+			fos.close();
 
-			// 引数に渡したFileが画像ファイル以外の場合、BufferedImageがnullで返ってくる。
-			if (bi != null) {
-				return true;
+			// ImageIOで、ファイルを読み込み
+			if (convFile != null && convFile.isFile()) {
+				BufferedImage bi = ImageIO.read(convFile);
+
+				// 引数に渡したFileが画像ファイル以外の場合、BufferedImageがnullで返ってくる。
+				if (bi != null) {
+					return true;
+				} else {
+					return false;
+				}
 			} else {
 				return false;
 			}
-		} else {
-			return false;
+		} catch (IOException e) {
+			// エラーはそのままスローする
+			throw e;
+		} finally {
+			// 一時ファイルの削除
+			convFile.delete();
 		}
 
 	}
