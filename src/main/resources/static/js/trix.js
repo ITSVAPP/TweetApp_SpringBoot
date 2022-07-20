@@ -15,21 +15,17 @@ addEventListener("trix-attachment-remove", function(event) {
 	console.log(attachments);
 });
 
-addEventListener("trix-change", function(event) {
-	// 内容が変化した場合実行
-	console.log('trix-change');
-});
 
-
-const postData = async () =>{
+const postData = async () => {
 	const form = new FormData();
-	const files = attachments.map(data => data.file);
-	form.append('files', files);	
+	attachments.forEach(o => {
+		form.append('files', o.file, o.file.name);
+	})
 	form.append('tweet', document.getElementById("tweetInput").value);
-	
+
 	const xsrf = Cookies.get('XSRF-TOKEN');
-	
-		try {
+
+	try {
 		const response = await fetch("/tweetForm", {
 			method: "POST",   // GET POST PUT DELETEなど
 			headers: {
@@ -37,10 +33,13 @@ const postData = async () =>{
 			},
 			body: form    // リクエスト本文をセット
 		});
-		
+
 		const data = await response;
-		
+		location.href = data.url;
+
 	} catch (e) {
 		console.error("ネットワークエラー", e)
 	}
 }
+
+document.getElementById("tweetbtn").addEventListener("click", postData);

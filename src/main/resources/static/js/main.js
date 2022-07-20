@@ -128,7 +128,7 @@ $(function() {
 
 				croppedCanvas = cropper.getCroppedCanvas();
 				// 下記toBlob関数はブラウザによって名前が異なる
-				var blob;
+				let blob;
 				if (croppedCanvas.toBlob) {
 					croppedCanvas.toBlob(function(blob) {
 						changeIcon(blob);
@@ -141,8 +141,8 @@ $(function() {
 				}
 
 				// 画面にトリミング結果を出力
-				var result = document.getElementById('result');
-				var roundedImage;
+				const result = document.getElementById('result');
+				let roundedImage;
 				roundedCanvas = getRoundedCanvas(croppedCanvas);
 				roundedImage = document.createElement('img');
 				roundedImage.src = roundedCanvas.toDataURL()

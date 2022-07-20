@@ -3,6 +3,8 @@
 <head>
 <meta th:replace="/include/head" />
 <title>つぶやきアプリ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 	<header th:replace="/include/header"></header>
@@ -21,15 +23,15 @@
 						<span th:text="${tweet.name}"></span>
 					</a>
 				</td>
-				<td th:text="${tweet.tweet}"></td>
+				<td th:utext="${tweet.tweet}" th:data-url="${tweet.imgUrl}" class="trix-content"></td>
 				<td th:text="${#dates.format(tweet.date,'yyyy/MM/dd HH:mm:ss')}"></td>
 			</tr>
 		</table>
 		<div>
 			<a href="/tweetForm.html" th:href="@{/tweetForm}" class="btn btn-primary">つぶやく</a>
 		</div>
-
 	</main>
 	<footer th:replace="/include/footer"></footer>
+	<script type="text/javascript" th:src="@{/js/trix-view.js}"></script>
 </body>
 </html>

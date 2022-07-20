@@ -1,9 +1,12 @@
 package com.tweet.app.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tweet.app.entity.Tweet;
 import com.tweet.app.exception.ApplicationException;
@@ -60,10 +63,23 @@ public class TweetService {
 	 * @throws ApplicationException
 	 */
 	public void createTweet(String userId, TweetForm form) {
+		List<String> filePathList = new ArrayList<>();
 		try {
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			int count = 1;
 
-			imgStorageService.storage(form.getFiles().get(0), "img/test.jpg");
-			tweetRepository.Insert(userId, form.getTweet());
+			// ファイル出力
+			if (form.getFiles() != null) {
+				for (MultipartFile file : form.getFiles()) {
+
+					String filePath = String.format("img/tweet/%s_%s_%d.%s", timestamp.getTime(), userId, count++,
+							imgStorageService.getExtName(file.getOriginalFilename()));
+					imgStorageService.storage(file, filePath);
+					filePathList.add(filePath);
+				}
+			}
+			String imgUrl = String.join(",", filePathList);
+			tweetRepository.Insert(userId, form.getTweet(), imgUrl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

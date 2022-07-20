@@ -1,12 +1,10 @@
 package com.tweet.app.controller.rest;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tweet.app.exception.ApplicationException;
@@ -23,9 +21,9 @@ public class UsersRestController {
 	private final UserService userService;
 
 	@PostMapping("/changeIcon")
-	private String changeIcon(@RequestBody MultipartFile file, @ModelAttribute IconChangeForm form) {
+	private String changeIcon(@Validated IconChangeForm form) {
 		try {
-			userService.changeUserIcon(form, file);
+			userService.changeUserIcon(form, form.getFile());
 		} catch (ApplicationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

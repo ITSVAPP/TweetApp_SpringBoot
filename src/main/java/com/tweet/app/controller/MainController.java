@@ -97,6 +97,7 @@ public class MainController {
 	@PostMapping("/tweetForm")
 	public String tweet(@Validated TweetForm form, BindingResult bindingResult,
 			@AuthenticationPrincipal CustomUserDetails user) {
+
 		// エラーチェック
 		if (bindingResult.hasErrors()) {
 			return showTweetForm(form);

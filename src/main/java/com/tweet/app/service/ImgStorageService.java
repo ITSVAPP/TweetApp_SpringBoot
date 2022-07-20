@@ -90,4 +90,8 @@ public class ImgStorageService {
 				.filter(file -> !file.getName().equals(nowImgFileName) && file.getName().startsWith(userId + "."))
 				.forEach(File::delete);
 	}
+
+	public String getExtName(String fileName) {
+		return fileName.substring(fileName.lastIndexOf(".") + 1);
+	}
 }

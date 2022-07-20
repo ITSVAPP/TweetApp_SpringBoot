@@ -36,6 +36,6 @@ public interface TweetRepository {
 	 * @param userId
 	 * @param tweet
 	 */
-	@Insert("insert into tweet (userId,tweet,date) values(#{userId}, #{tweet},now())")
-	void Insert(@Param("userId") String userId, @Param("tweet") String tweet);
+	@Insert("insert into tweet (userId,tweet,date,img_url) values(#{userId}, #{tweet},now(),#{imgUrl})")
+	void Insert(@Param("userId") String userId, @Param("tweet") String tweet, @Param("imgUrl") String imgUrl);
 }
