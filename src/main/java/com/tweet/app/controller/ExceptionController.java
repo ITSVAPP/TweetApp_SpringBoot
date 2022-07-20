@@ -33,6 +33,7 @@ public class ExceptionController implements ErrorController {
 	@ExceptionHandler({ Throwable.class })
 	public String throwableHandler(Throwable ex, Model model) {
 		// エラーログの出力
+		ex.printStackTrace();
 		log.error(ex.getMessage());
 		model.addAttribute("systemerr", true);
 		return "error/error";
@@ -51,13 +52,13 @@ public class ExceptionController implements ErrorController {
 
 		// 404 の場合はデフォルトページへ遷移させる
 		if (statusCode != null && "404".equals(statusCode.toString())) {
-			log.info(request.getRequestURL() + "をリダイレクト");
+			log.error("404エラー");
 			return "redirect:/";
 		}
 
 		// 403 の場合は権限エラーのメッセージを表示させる
 		if (statusCode != null && "403".equals(statusCode.toString())) {
-			log.info("権限エラー");
+			log.error("権限エラー");
 			model.addAttribute("authorityerr", true);
 			return "error/error";
 		}
