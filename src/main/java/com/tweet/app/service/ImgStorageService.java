@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class ImgStorageService {
 
 	public void storage(MultipartFile file, String fileName) throws ApplicationException {
-
 		try {
 			if (!isImageFileByImageIO(file)) {
 				throw new ApplicationException("画像ファイルではありません");

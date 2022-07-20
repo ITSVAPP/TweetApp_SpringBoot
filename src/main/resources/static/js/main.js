@@ -51,7 +51,7 @@ const changeIcon = async (blob) => {
 
 $(function() {
 	$('#triming_image').on('change', function(event) {
-
+		
 		var trimingImage = event.target.files;
 
 		// imageタグは1つしかファイルを送信できない仕組みと複数送信するパターンがある

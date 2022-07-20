@@ -101,7 +101,8 @@ public class MainController {
 		if (bindingResult.hasErrors()) {
 			return showTweetForm(form);
 		}
-		tweetService.createTweet(user.getUserId(), form.getTweet());
+
+		tweetService.createTweet(user.getUserId(), form);
 		return "redirect:/";
 	}
 

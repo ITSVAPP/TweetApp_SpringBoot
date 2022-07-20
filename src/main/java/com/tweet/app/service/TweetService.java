@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tweet.app.entity.Tweet;
 import com.tweet.app.exception.ApplicationException;
+import com.tweet.app.form.TweetForm;
 import com.tweet.app.repository.TweetRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class TweetService {
 
 	private final TweetRepository tweetRepository;
+	private final ImgStorageService imgStorageService;
 
 	@Value("${error.nouser}")
 	private String noUserErrMsg;
@@ -55,9 +57,17 @@ public class TweetService {
 	 * 
 	 * @param userId
 	 * @param tweet
+	 * @throws ApplicationException
 	 */
-	public void createTweet(String userId, String tweet) {
-		tweetRepository.Insert(userId, tweet);
+	public void createTweet(String userId, TweetForm form) {
+		try {
+
+			imgStorageService.storage(form.getFiles().get(0), "img/test.jpg");
+			tweetRepository.Insert(userId, form.getTweet());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

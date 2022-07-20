@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	//bootstrap
-	implementation 'org.webjars:bootstrap:5.0.2'
+	implementation 'org.webjars:bootstrap:5.0.2'	
 }
 
 tasks.named('test') {

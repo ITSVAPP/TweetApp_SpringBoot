@@ -15,8 +15,7 @@
 
 		<div class="w-50 m-auto" th:if="!${noUserErrMessage}">
 			<form th:object="${userUpdateForm}" action="#" th:action="@{/users/updateForm/{userId}(userId=${userId})}" method="post" autocomplete="off">
-				<div th:if="${errMessage}" class="alert alert-danger" th:text="${errMessage}">(error)</div>
-				
+				<div th:if="${errMessage}" class="alert alert-danger" th:text="${errMessage}">(error)</div>		
 				<div class="cropper-container">
 					<p>
 						<input type="file" id="triming_image" name="triming_image" class="triming-image" />
